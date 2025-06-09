@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin Mahasiswa</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Admin Kampus</span>
+            </div>
+            <ul class="nav-links">
+                <li class="active">
+                    <a href="#"><i class="fas fa-home"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-users"></i> Mahasiswa</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-book"></i> Mata Kuliah</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-chart-bar"></i> Laporan</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-cog"></i> Pengaturan</a>
+                </li>
+                <li class="logout">
+                    <a href="login.html"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Cari...">
+                </div>
+                <div class="user-info">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="profile">
+                        <img src="https://via.placeholder.com/40" alt="Profil Admin">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Statistics Cards -->
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-card-content">
+                            <h3>Total Mahasiswa</h3>
+                            <p class="number">1,234</p>
+                            <span class="trend positive">
+                                <i class="fas fa-arrow-up"></i> 12%
+                            </span>
+                        </div>
+                        <i class="fas fa-users stat-icon"></i>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-content">
+                            <h3>Mahasiswa Aktif</h3>
+                            <p class="number">1,180</p>
+                            <span class="trend positive">
+                                <i class="fas fa-arrow-up"></i> 8%
+                            </span>
+                        </div>
+                        <i class="fas fa-user-check stat-icon"></i>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-content">
+                            <h3>Jumlah Fakultas</h3>
+                            <p class="number">6</p>
+                            <span class="trend neutral">
+                                <i class="fas fa-minus"></i> 0%
+                            </span>
+                        </div>
+                        <i class="fas fa-university stat-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="chart-container">
+                        <h3>Tren Pendaftaran Mahasiswa</h3>
+                        <canvas id="enrollmentChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Distribusi Fakultas</h3>
+                        <canvas id="departmentChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Students Table -->
+                <div class="recent-students">
+                    <div class="section-header">
+                        <h3>Daftar Mahasiswa Terbaru</h3>
+                        <button class="view-all">Lihat Semua</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>NIM</th>
+                                    <th>Nama</th>
+                                    <th>Fakultas</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2023001</td>
+                                    <td>Budi Santoso</td>
+                                    <td>Teknik Informatika</td>
+                                    <td><span class="status active">Aktif</span></td>
+                                    <td>
+                                        <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2023002</td>
+                                    <td>Siti Rahma</td>
+                                    <td>Ekonomi</td>
+                                    <td><span class="status active">Aktif</span></td>
+                                    <td>
+                                        <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2023003</td>
+                                    <td>Ahmad Rizki</td>
+                                    <td>Hukum</td>
+                                    <td><span class="status inactive">Tidak Aktif</span></td>
+                                    <td>
+                                        <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Enrollment Chart
+        const enrollmentCtx = document.getElementById('enrollmentChart').getContext('2d');
+        new Chart(enrollmentCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
+                datasets: [{
+                    label: 'Pendaftaran Mahasiswa',
+                    data: [650, 750, 800, 850, 900, 1000],
+                    borderColor: '#764ba2',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(118, 75, 162, 0.1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+
+        // Department Chart
+        const departmentCtx = document.getElementById('departmentChart').getContext('2d');
+        new Chart(departmentCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Teknik Informatika', 'Ekonomi', 'Hukum', 'Kedokteran', 'Lainnya'],
+                datasets: [{
+                    data: [30, 25, 20, 15, 10],
+                    backgroundColor: [
+                        '#764ba2',
+                        '#667eea',
+                        '#ed64a6',
+                        '#48bb78',
+                        '#4299e1'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
